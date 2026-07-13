@@ -155,13 +155,13 @@ export function SiuRunCelebration({
 
 /* ---------- car that drives in from the left ---------- */
 function CarRunner({ image, running, stopped }: { image: string; running: boolean; stopped: boolean }) {
-  // During 'run': slide from -40% to 55% (left of center) over ~1s.
+  // During 'run': slide from -40% to the middle (50%) over ~1s.
   // When stopped: hold position with a subtle brake lean.
   return (
     <div
       className="absolute bottom-10 h-24 w-44"
       style={{
-        left: running ? "55%" : stopped ? "55%" : "-40%",
+        left: running ? "50%" : stopped ? "50%" : "-40%",
         transform: stopped ? "translateX(-100%) rotate(-1deg)" : "translateX(-100%)",
         transition: running
           ? "left 1s cubic-bezier(0.3,0.8,0.4,1)"

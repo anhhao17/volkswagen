@@ -161,7 +161,7 @@ function CarRunner({ image, running, stopped }: { image: string; running: boolea
     <div
       className="absolute bottom-10 h-24 w-44"
       style={{
-        left: running ? "55%" : stopped ? "55%" : "-40%",
+        left: running ? "50%" : stopped ? "50%" : "-40%",
         transform: stopped ? "translateX(-100%) rotate(-1deg)" : "translateX(-100%)",
         transition: running
           ? "left 1s cubic-bezier(0.3,0.8,0.4,1)"
