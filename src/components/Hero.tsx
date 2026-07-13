@@ -4,16 +4,32 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { DrivingCar } from "./DrivingCar";
 import { SiuRunCelebration } from "./SiuRunCelebration";
+import { MessiCelebration } from "./MessiCelebration";
 import { SpeedLines } from "./SpeedLines";
 
-export function Hero() {
-  // Auto-play the Siu intro once on mount.
-  const [siuTrigger, setSiuTrigger] = useState(0);
+type Star = "ronaldo" | "messi";
 
+export function Hero() {
+  const [star, setStar] = useState<Star>("ronaldo");
+  const [trigger, setTrigger] = useState(0);
+
+  // Auto-play the intro once on mount.
   useEffect(() => {
-    const t = setTimeout(() => setSiuTrigger(1), 600);
+    const t = setTimeout(() => setTrigger(1), 600);
     return () => clearTimeout(t);
   }, []);
+
+  const replay = () => setTrigger((t) => t + 1);
+
+  const switchStar = (s: Star) => {
+    if (s === star) {
+      replay();
+      return;
+    }
+    setStar(s);
+    // small delay so the new component mounts before triggering
+    setTimeout(() => setTrigger((t) => t + 1), 50);
+  };
 
   return (
     <section className="relative overflow-hidden bg-vw-dark text-white">
@@ -28,23 +44,32 @@ export function Hero() {
           <h1 className="mt-4 text-4xl font-black leading-tight tracking-tight sm:text-6xl">
             Drive the legend.
             <br />
-            <span className="text-ronaldo-gold">SIUUU!</span>
+            <span className={star === "ronaldo" ? "text-ronaldo-gold" : "text-sky-400"}>
+              {star === "ronaldo" ? "SIUUU!" : "ANKARA MESSI!"}
+            </span>
           </h1>
           <p className="mt-4 max-w-md text-white/70">
             From the iconic Golf GTI to the electric ID. Buzz — shop the full
             Volkswagen lineup online. Performance, heritage, and a celebration
             with every purchase.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+
+          {/* Star toggle */}
+          <div className="mt-6 inline-flex rounded-full bg-white/10 p-1">
+            <ToggleBtn active={star === "ronaldo"} onClick={() => switchStar("ronaldo")} label="Ronaldo" />
+            <ToggleBtn active={star === "messi"} onClick={() => switchStar("messi")} label="Messi" />
+          </div>
+
+          <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/products" className="btn-gold">
               Browse cars
             </Link>
             <button
               type="button"
-              onClick={() => setSiuTrigger((t) => t + 1)}
+              onClick={replay}
               className="btn-outline !border-white/30 !text-white hover:!bg-white hover:!text-vw-dark"
             >
-              Replay Siu
+              Replay {star === "ronaldo" ? "Siu" : "Ankara Messi"}
             </button>
           </div>
 
@@ -55,15 +80,35 @@ export function Hero() {
           </dl>
         </div>
 
-        {/* Siu celebration + driving car scene */}
+        {/* Celebration + driving car scene */}
         <div className="relative">
-          <SiuRunCelebration trigger={siuTrigger} autoPlay={false} className="border border-white/10" />
+          {star === "ronaldo" ? (
+            <SiuRunCelebration trigger={trigger} autoPlay={false} className="border border-white/10" />
+          ) : (
+            <MessiCelebration trigger={trigger} autoPlay={false} className="border border-white/10" />
+          )}
           <div className="mt-3 overflow-hidden rounded-2xl bg-white/5 p-3 backdrop-blur">
             <DrivingCar bodyType="Hatchback" color="#00B0F0" duration={5} />
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function ToggleBtn({ active, onClick, label }: { active: boolean; onClick: () => void; label: string }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={
+        active
+          ? "rounded-full bg-white px-4 py-1.5 text-sm font-bold text-vw-dark"
+          : "rounded-full px-4 py-1.5 text-sm font-medium text-white/70 hover:text-white"
+      }
+    >
+      {label}
+    </button>
   );
 }
 

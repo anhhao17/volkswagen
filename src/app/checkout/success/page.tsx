@@ -3,13 +3,17 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { SiuRunCelebration } from "@/components/SiuRunCelebration";
+import { MessiCelebration } from "@/components/MessiCelebration";
 import { DrivingCar } from "@/components/DrivingCar";
 import { formatPrice } from "@/lib/cars";
 import type { Order } from "@/lib/types";
 
+type Star = "ronaldo" | "messi";
+
 export default function SuccessPage() {
   const [order, setOrder] = useState<Order | null>(null);
-  const [siuTrigger, setSiuTrigger] = useState(0);
+  const [trigger, setTrigger] = useState(0);
+  const [star, setStar] = useState<Star>("ronaldo");
 
   useEffect(() => {
     try {
@@ -18,21 +22,34 @@ export default function SuccessPage() {
     } catch {
       /* ignore */
     }
-    // Fire the Siu celebration shortly after mount.
-    const t = setTimeout(() => setSiuTrigger(1), 300);
+    // Pick a random star for the celebration on load.
+    setStar(Math.random() > 0.5 ? "ronaldo" : "messi");
+    const t = setTimeout(() => setTrigger(1), 300);
     return () => clearTimeout(t);
   }, []);
 
   const carImage = order?.items?.[0]?.car.image ?? "/cars/golf-gti.jpg";
 
+  const replay = (s: Star) => {
+    setStar(s);
+    setTimeout(() => setTrigger((t) => t + 1), 50);
+  };
+
   return (
     <div className="container-page py-16 text-center">
       <div className="mx-auto max-w-2xl">
-        <SiuRunCelebration trigger={siuTrigger} carImage={carImage} />
+        {star === "ronaldo" ? (
+          <SiuRunCelebration trigger={trigger} carImage={carImage} />
+        ) : (
+          <MessiCelebration trigger={trigger} carImage={carImage} />
+        )}
       </div>
 
       <h1 className="mt-6 text-4xl font-black tracking-tight text-vw-dark">
-        Order confirmed! <span className="text-ronaldo-gold">SIUUUU!</span>
+        Order confirmed!{" "}
+        <span className={star === "ronaldo" ? "text-ronaldo-gold" : "text-sky-500"}>
+          {star === "ronaldo" ? "SIUUUU!" : "ANKARA MESSI!"}
+        </span>
       </h1>
       <p className="mt-3 text-vw-dark/70">
         Thank you{order?.customer?.name ? `, ${order.customer.name}` : ""} — your Volkswagen is on its way.
@@ -65,8 +82,15 @@ export default function SuccessPage() {
 
       <div className="mt-10 flex flex-wrap justify-center gap-3">
         <Link href="/products" className="btn-primary">Buy another</Link>
-        <button type="button" onClick={() => setSiuTrigger((t) => t + 1)} className="btn-gold">
+        <button type="button" onClick={() => replay("ronaldo")} className="btn-gold">
           Replay Siu
+        </button>
+        <button
+          type="button"
+          onClick={() => replay("messi")}
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-sky-400 px-6 py-3 text-sm font-bold text-sky-900 transition hover:bg-sky-300"
+        >
+          Replay Ankara Messi
         </button>
       </div>
     </div>
