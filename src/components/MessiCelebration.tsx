@@ -29,8 +29,8 @@ const CHANT = [
  *   2. Messi runs in dribbling a ball (alternating legs)
  *   3. Squash (crouch, loading the jump)
  *   4. Stretch (small hop)
- *   5. Land pointing to the sky — right arm straight up, head looking up
- *      (his tribute to his grandmother)
+ *   5. Land with hand cupped to ear — right arm bent up, hand near the ear
+ *      (the "I can't hear you / listen to the crowd" gesture)
  *   6. "ANKARA MESSI / KARA MESSI / ENCARA MESSI! / MESSI MESSI MESSI / GOL! GOL! GOL!"
  *      types in line-by-line
  *   7. Hold + "🐐 GOAT"
@@ -246,7 +246,7 @@ function RunningFigure() {
  *   run    — legs alternating, ball at feet
  *   squash — crouched
  *   stretch— small hop
- *   landed — pointing to the sky (right arm straight up, head tilted up)
+ *   landed — hand cupped to ear (right arm bent up to ear, head tilted toward hand)
  */
 function PoseFigure({
   pose,
@@ -260,19 +260,21 @@ function PoseFigure({
   const line = "#0A3D62";
   const shorts = "#0A3D62";
 
-  // Pointing to sky: right arm straight up, left arm relaxed.
+  // Hand to ear: right arm bent up so the hand reaches the ear.
+  // The arm rotates and the forearm bends inward toward the head.
   const leftArm =
-    pose === "landed" ? "rotate(15deg)" : pose === "stretch" ? "rotate(-30deg)" : "rotate(10deg)";
+    pose === "landed" ? "rotate(20deg)" : pose === "stretch" ? "rotate(-30deg)" : "rotate(10deg)";
+  // Right arm swings up and inward so the hand cups the right ear.
   const rightArm =
-    pose === "landed" ? "rotate(-170deg)" : pose === "stretch" ? "rotate(140deg)" : "rotate(-10deg)";
+    pose === "landed" ? "rotate(-120deg)" : pose === "stretch" ? "rotate(140deg)" : "rotate(-10deg)";
 
   const scaleY = pose === "squash" ? 0.7 : pose === "stretch" ? 1.12 : 1;
 
   const legA = pose === "run" && runFrame === 0 ? "rotate(20deg)" : pose === "run" ? "rotate(-15deg)" : "rotate(0deg)";
   const legB = pose === "run" && runFrame === 0 ? "rotate(-15deg)" : pose === "run" ? "rotate(20deg)" : "rotate(0deg)";
 
-  // Head tilt up when pointing to sky.
-  const headTilt = pose === "landed" ? "rotate(-15deg)" : "rotate(0deg)";
+  // Head tilts slightly toward the cupped ear (to the right).
+  const headTilt = pose === "landed" ? "rotate(10deg)" : "rotate(0deg)";
 
   return (
     <svg
@@ -319,30 +321,45 @@ function PoseFigure({
         <rect x="28" y="76" width="12" height="44" rx="5" fill={jersey} stroke={line} strokeWidth="2" />
         <circle cx="34" cy="122" r="6" fill={skin} />
       </g>
-      {/* Right arm — points straight up when landed */}
+      {/* Right arm — bends up to cup the ear when landed */}
       <g style={{ transformOrigin: "80px 78px", transform: rightArm, transition: "transform 0.3s ease-out" }}>
-        <rect x="80" y="76" width="12" height="44" rx="5" fill={jersey} stroke={line} strokeWidth="2" />
-        <circle cx="86" cy="122" r="6" fill={skin} />
-        {/* pointing finger when landed */}
-        {pose === "landed" && (
-          <rect x="84" y="116" width="4" height="10" rx="2" fill={skin} transform="translate(0 -44)" />
+        {/* upper arm */}
+        <rect x="80" y="76" width="12" height="30" rx="5" fill={jersey} stroke={line} strokeWidth="2" />
+        {pose === "landed" ? (
+          <>
+            {/* forearm bends inward (up toward ear) */}
+            <rect x="78" y="48" width="12" height="32" rx="5" fill={skin} stroke={line} strokeWidth="1.5" />
+            {/* cupped hand near the ear */}
+            <ellipse cx="84" cy="46" rx="9" ry="7" fill={skin} stroke={line} strokeWidth="1.5" />
+            {/* cupped fingers hint */}
+            <path d="M78 44 Q84 40 90 44" stroke={line} strokeWidth="1.2" fill="none" />
+          </>
+        ) : (
+          <>
+            {/* normal hanging forearm */}
+            <rect x="80" y="106" width="12" height="20" rx="5" fill={skin} stroke={line} strokeWidth="1.5" />
+            <circle cx="86" cy="128" r="6" fill={skin} />
+          </>
         )}
       </g>
 
       {/* Neck */}
       <rect x="54" y="60" width="12" height="12" fill={skin} />
 
-      {/* Head (tilts up when pointing to sky) */}
+      {/* Head (tilts toward the cupped ear when landed) */}
       <g style={{ transformOrigin: "60px 48px", transform: headTilt, transition: "transform 0.3s ease-out" }}>
         <circle cx="60" cy="48" r="16" fill={skin} />
         {/* Hair (longer, brown) */}
         <path d="M44 48 Q44 28 60 28 Q76 28 76 48 Q74 40 70 38 L70 50 Q66 34 60 34 Q54 34 50 50 L50 38 Q46 40 44 48 Z" fill="#3A2317" />
-        {/* Face — when pointing up, eyes look up (closed/simple) */}
+        {/* Beard hint */}
+        <path d="M48 54 Q60 62 72 54 Q70 58 60 60 Q50 58 48 54 Z" fill="#3A2317" opacity="0.5" />
+        {/* Face — when landed, eyes glance sideways with a confident smirk */}
         {pose === "landed" ? (
           <>
-            <circle cx="54" cy="46" r="1.4" fill="#0A0A0A" />
-            <circle cx="66" cy="46" r="1.4" fill="#0A0A0A" />
-            <path d="M54 54 Q60 52 66 54" stroke="#0A0A0A" strokeWidth="1.2" fill="none" />
+            <circle cx="56" cy="49" r="1.5" fill="#0A0A0A" />
+            <circle cx="68" cy="49" r="1.5" fill="#0A0A0A" />
+            {/* smirk */}
+            <path d="M55 55 Q62 58 69 54" stroke="#0A0A0A" strokeWidth="1.3" fill="none" />
           </>
         ) : (
           <>
