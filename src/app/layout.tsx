@@ -4,6 +4,7 @@ import { CartProvider } from "@/components/CartProvider";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SiuButton } from "@/components/SiuButton";
+import { MouseFollowCar } from "@/components/MouseFollowCar";
 
 export const metadata: Metadata = {
   title: "VOLW — Volkswagen Store | Drive the legend. SIUUU!",
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navbar />
           <main className="min-h-[60vh]">{children}</main>
           <Footer />
+          <MouseFollowCar />
           <SiuButton />
         </CartProvider>
       </body>
