@@ -19,7 +19,6 @@ export function MouseFollowCar() {
   const flip = useRef(false);
 
   const carRef = useRef<HTMLDivElement>(null);
-  const speedRef = useRef<HTMLSpanElement>(null);
   const [spin, setSpin] = useState(false);
   const [facingLeft, setFacingLeft] = useState(false);
 
@@ -71,9 +70,6 @@ export function MouseFollowCar() {
         // Offset so the car sits below-right of the cursor (not under it).
         carRef.current.style.transform = `translate3d(${pos.current.x + 14}px, ${pos.current.y + 10}px, 0) scaleX(${facingLeft ? -1 : 1})`;
       }
-      if (speedRef.current && isMoving) {
-        speedRef.current.textContent = `${Math.round(Math.min(speed, 999))} px/s`;
-      }
 
       raf = requestAnimationFrame(loop);
     };
@@ -100,13 +96,6 @@ export function MouseFollowCar() {
             spinWheels={spin}
             className="w-16 drop-shadow-[0_4px_6px_rgba(0,30,80,0.3)]"
           />
-          {/* speedometer — only visible while moving */}
-          <span
-            ref={speedRef}
-            className={`absolute -top-5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-vw-dark/80 px-2 py-0.5 text-[10px] font-bold text-ronaldo-gold transition-opacity duration-200 ${spin ? "opacity-100" : "opacity-0"}`}
-          >
-            0 px/s
-          </span>
         </div>
       </div>
     </div>
