@@ -47,9 +47,24 @@ export function Footer() {
 
           <div>
             <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-white/50">
-              Newsletter
+              Contact — Hải Volkswagen
             </h4>
-            <p className="text-sm text-white/60">Get new arrivals &amp; SIUUU moments.</p>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a href="tel:+84984596525" className="hover:text-ronaldo-gold">0984 596 525</a>
+              </li>
+              <li>
+                <a
+                  href="https://www.facebook.com/ngoc.hai.572716"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-ronaldo-gold"
+                >
+                  Facebook: Ngoc Hai
+                </a>
+              </li>
+            </ul>
+            <p className="mt-3 text-sm text-white/60">Get new arrivals &amp; SIUUU moments.</p>
             <form className="mt-3 flex gap-2">
               <input
                 type="email"

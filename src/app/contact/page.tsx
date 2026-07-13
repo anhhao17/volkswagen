@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Facebook, User } from "lucide-react";
 
 export default function ContactPage() {
   const [sent, setSent] = useState(false);
@@ -21,8 +21,25 @@ export default function ContactPage() {
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <div className="space-y-4">
+          <ContactRow
+            icon={<User size={18} />}
+            label="Sales contact"
+            value="Hải Volkswagen"
+          />
+          <ContactLink
+            icon={<Phone size={18} />}
+            label="Phone"
+            value="0984 596 525"
+            href="tel:+84984596525"
+          />
+          <ContactLink
+            icon={<Facebook size={18} />}
+            label="Facebook"
+            value="Ngoc Hai — Hải Volkswagen"
+            href="https://www.facebook.com/ngoc.hai.572716"
+            external
+          />
           <ContactRow icon={<Mail size={18} />} label="Email" value="hello@volw.example" />
-          <ContactRow icon={<Phone size={18} />} label="Phone" value="+1 (555) 010-0017" />
           <ContactRow icon={<MapPin size={18} />} label="Showroom" value="17 Wolfsburg Way, Autostadt" />
           <div className="rounded-2xl bg-vw-blue/5 p-6">
             <h3 className="font-bold text-vw-dark">Showroom hours</h3>
@@ -67,6 +84,9 @@ export default function ContactPage() {
           <button type="submit" className="btn-primary w-full">
             {sent ? "Sent! SIUUU!" : <><Send size={16} /> Send message</>}
           </button>
+          <p className="text-center text-xs text-vw-dark/50">
+            Or call <a href="tel:+84984596525" className="font-semibold text-vw-blue hover:underline">0984 596 525</a> (Hải Volkswagen)
+          </p>
         </form>
       </div>
     </div>
@@ -82,5 +102,33 @@ function ContactRow({ icon, label, value }: { icon: React.ReactNode; label: stri
         <p className="font-semibold text-vw-dark">{value}</p>
       </div>
     </div>
+  );
+}
+
+function ContactLink({
+  icon,
+  label,
+  value,
+  href,
+  external,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  href: string;
+  external?: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className="flex items-center gap-4 rounded-2xl border border-black/5 bg-white p-4 shadow-sm transition hover:border-vw-blue/40 hover:shadow-md"
+    >
+      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-vw-blue/10 text-vw-blue">{icon}</span>
+      <div>
+        <p className="text-xs uppercase tracking-wider text-vw-dark/50">{label}</p>
+        <p className="font-semibold text-vw-dark hover:text-vw-blue">{value}</p>
+      </div>
+    </a>
   );
 }
