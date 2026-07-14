@@ -61,3 +61,36 @@ body {
     transparent 48px
   );
 }
+
+/* 3D viewer slider */
+.car3d-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+  cursor: pointer;
+}
+.car3d-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: #ffd700;
+  border: 2px solid #0a0f17;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.car3d-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+.car3d-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: #ffd700;
+  border: 2px solid #0a0f17;
+  cursor: pointer;
+}

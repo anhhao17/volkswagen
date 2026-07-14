@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { cars, getCarBySlug, formatPrice } from "@/lib/cars";
 import { CarImage } from "@/components/CarImage";
 import { DrivingCar } from "@/components/DrivingCar";
+import { Car3DButton } from "@/components/Car3DViewer";
 import { AddToCartButton } from "./AddToCartButton";
 import { Gauge, Fuel, Zap, Users, Cog, Wind, Star, ArrowLeft } from "lucide-react";
 
@@ -48,6 +49,11 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
           <div className="mt-4 overflow-hidden rounded-2xl bg-vw-blue/5 p-3">
             <DrivingCar bodyType={car.bodyType} color={car.colorHex} duration={6} />
+          </div>
+
+          {/* 3D walk-through */}
+          <div className="mt-4">
+            <Car3DButton carName={car.name} />
           </div>
 
           {/* Color swatch */}

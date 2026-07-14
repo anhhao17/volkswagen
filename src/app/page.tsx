@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Hero } from "@/components/Hero";
 import { CarCard } from "@/components/CarCard";
 import { DrivingCar } from "@/components/DrivingCar";
+import { Car3DSection } from "@/components/Car3DSection";
 import { cars, getFeaturedCars } from "@/lib/cars";
 import { blogPosts } from "@/lib/blog";
 import { formatDate } from "@/lib/utils";
@@ -40,6 +41,13 @@ export default function HomePage() {
           <DrivingCar bodyType="SUV" color="#0F3D5E" duration={7} />
         </div>
       </section>
+
+      {/* 3D scroll walk-through */}
+      <Car3DSection
+        title="Step inside the legend"
+        subtitle="Scroll to dive through the window into the cabin, look around, then pull back out."
+        scrollPages={3}
+      />
 
       {/* Categories */}
       <section className="container-page py-16">
